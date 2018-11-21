@@ -28,6 +28,9 @@ public class JobData {
      * @param field The column to retrieve values from
      * @return List of all of the values of the given field
      */
+
+
+
     public static ArrayList<String> findAll(String field) {
 
         // load data, if not already loaded
@@ -83,6 +86,38 @@ public class JobData {
 
         return jobs;
     }
+
+    /*
+    I need to take just the value and run it through each of the columns
+    I also need to ensure each job is only printed out once
+     */
+    public static ArrayList<HashMap<String, String>> findByValue(String column, String value) {
+
+        // load data, if not already loaded
+        loadData();
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+        HashMap<String,String> someJob = new HashMap<String, String>();
+
+        for (HashMap<String, String> row : allJobs) {
+
+            String aValue = row.get(column);
+            /*
+            job is not in the list
+
+            arraylist of hashmaps
+            hashmap is the individual job information
+            the individual job contains all the rows (position, name, skills, etc)
+             */
+
+            if (aValue.contains(value)) {
+                jobs.add(row);
+            }
+        }
+
+        return jobs;
+    }
+
 
     /**
      * Read in data from a CSV file and store it in a list
