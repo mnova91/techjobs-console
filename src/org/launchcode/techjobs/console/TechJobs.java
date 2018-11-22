@@ -61,13 +61,8 @@ public class TechJobs {
                 String searchTerm = in.nextLine();
 
                 if (searchField.equals("all")) {
-                    System.out.println("Under construction, please wait\n");
-
-                    printJobs(JobData.findAll());
+                    printJobs(JobData.findByValue(searchTerm));
                 }
-                /*
-                above is where the new method should be implemented
-                 */
                 else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
@@ -117,7 +112,7 @@ public class TechJobs {
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
         int size = someJobs.size();
-        if (size == 0) {System.out.println("Search term does not exist");}
+        if (size == 0) {System.out.println("No Results");}
 
         for (HashMap<String,String> jobInformation : someJobs) {
             System.out.println("*****");

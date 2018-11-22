@@ -1,15 +1,15 @@
 package org.launchcode.techjobs.console;
 
+import jdk.internal.org.objectweb.asm.tree.analysis.Value;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import sun.awt.SunHints;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -49,6 +49,7 @@ public class JobData {
         return values;
     }
 
+
     public static ArrayList<HashMap<String, String>> findAll() {
 
         // load data, if not already loaded
@@ -79,7 +80,10 @@ public class JobData {
 
             String aValue = row.get(column);
 
-            if (aValue.contains(value)) {
+            String checkaValue = aValue.toLowerCase();
+            String checkvalue = value.toLowerCase();
+
+            if (checkaValue.contains(checkvalue) && !jobs.contains(row)) {
                 jobs.add(row);
             }
         }
@@ -88,34 +92,28 @@ public class JobData {
     }
 
     /*
-    I need to take just the value and run it through each of the columns
-    I also need to ensure each job is only printed out once
+    this is the boiler plate of the findByColumnAndValue method
      */
-    public static ArrayList<HashMap<String, String>> findByValue(String column, String value) {
+    public static ArrayList<HashMap<String, String>> findByValue(String searchTermValue) {
 
         // load data, if not already loaded
         loadData();
 
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
-        HashMap<String,String> someJob = new HashMap<String, String>();
 
         for (HashMap<String, String> row : allJobs) {
+            for (Map.Entry<String, String> job : row.entrySet()) {
+                String hmvalue = job.getValue();
 
-            String aValue = row.get(column);
-            /*
-            job is not in the list
-
-            arraylist of hashmaps
-            hashmap is the individual job information
-            the individual job contains all the rows (position, name, skills, etc)
-             */
-
-            if (aValue.contains(value)) {
-                jobs.add(row);
+                String checkMapValue = hmvalue.toLowerCase();
+                String checkSearchTermValue = searchTermValue.toLowerCase();
+                if (checkMapValue.contains(checkSearchTermValue) && !jobs.contains(row)) {
+                    jobs.add(row);
+                }
             }
         }
 
-        return jobs;
+            return jobs;
     }
 
 
